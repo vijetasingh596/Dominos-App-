@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+
+  <!-- Global Header -->
+  <%- include('partials/header') %>
+
+  <!-- Menu Header & Filter Banner -->
+  <section style="background: white; border-bottom: 1px solid var(--border-subtle); padding: 2.5rem 0 1.5rem;">
+    <div class="container">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem;">
+        <div>
+          <h1 style="font-size: 2.4rem; font-weight: 900; color: var(--text-main);">Explore Domino's Menu</h1>
+          <p style="color: var(--text-muted); font-size: 1.05rem;">Freshly baked handcrafted pizzas, warm stuffed garlic breads, and delightful treats.</p>
+        </div>
+
+        <!-- Search Bar -->
+        <form action="/menu" method="GET" style="display: flex; gap: 0.5rem; max-width: 360px; width: 100%;">
+          <% if (activeCategory !== 'all') { %>
+            <input type="hidden" name="category" value="<%= activeCategory %>">
+          <% } %>
+          <div style="position: relative; width: 100%;">
+            <input type="text" name="q" value="<%= searchQuery %>" placeholder="Search for Farmhouse, Paneer, Lava..." class="form-control" style="padding-left: 2.5rem; border-radius: var(--radius-full);">
+            <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);">🔍</span>
+          </div>
+          <button type="submit" class="btn-dominos-blue" style="background: var(--dominos-blue); color: white; border: none; padding: 0 1.25rem; border-radius: var(--radius-full); font-weight: 700; cursor: pointer;">Search</button>
+        </form>
+      </div>
+
+      <!-- Categories & Filters -->
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div class="category-scroll-list" style="padding: 0;">
+          <a href="/menu?category=all<%= searchQuery ? `&q=${searchQuery}` : '' %>" class="cat-pill <%= activeCategory === 'all' ? 'active' : '' %>">
+            <span>🍕</span> All Items
+          </a>
+          <a href="/menu?category=veg<%= searchQuery ? `&q=${searchQuery}` : '' %>" class="cat-pill <%= activeCategory === 'veg' ? 'active' : '' %>">
+            <span class="food-type-icon veg" style="position: static; width: 14px; height: 14px;"></span> Veg Pizzas
+          </a>
+          <a href="/menu?category=nonveg<%= searchQuery ? `&q=${searchQuery}` : '' %>" class="cat-pill <%= activeCategory === 'nonveg' ? 'active' : '' %>">
+            <span class="food-type-icon nonveg" style="position: static; width: 14px; height: 14px;"></span> Non-Veg Pizzas
+          </a>
+          <a href="/menu?category=sides<%= searchQuery ? `&q=${searchQuery}` : '' %>" class="cat-pill <%= activeCategory === 'sides' ? 'active' : '' %>">
+            <span>🥖</span> Garlic Breads & Sides
+          </a>
+          <a href="/menu?category=desserts<%= searchQuery ? `&q=${searchQuery}` : '' %>" class="cat-pill <%= activeCategory === 'desserts' ? 'active' : '' %>">
+            <span>🍫</span> Desserts
+          </a>
+          <a href="/menu?category=beverages<%= searchQuery ? `&q=${searchQuery}` : '' %>" class="cat-pill <%= activeCategory === 'beverages' ? 'active' : '' %>">
+            <span>🥤</span> Beverages
+          </a>
+        </div>
+
+        <!-- Sort Select -->
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Sort By:</span>
+          <select onchange="location.href=this.value" class="form-control" style="padding: 0.45rem 1rem; width: auto; font-size: 0.88rem; font-weight: 600;">
+            <option value="/menu?category=<%= activeCategory %>&sort=popular<%= searchQuery ? `&q=${searchQuery}` : '' %>" <%= activeSort === 'popular' ? 'selected' : '' %>>Popularity</option>
+            <option value="/menu?category=<%= activeCategory %>&sort=rating<%= searchQuery ? `&q=${searchQuery}` : '' %>" <%= activeSort === 'rating' ? 'selected' : '' %>>Highest Rated</option>
+            <option value="/menu?category=<%= activeCategory %>&sort=price_low<%= searchQuery ? `&q=${searchQuery}` : '' %>" <%= activeSort === 'price_low' ? 'selected' : '' %>>Price: Low to High</option>
+            <option value="/menu?category=<%= activeCategory %>&sort=price_high<%= searchQuery ? `&q=${searchQuery}` : '' %>" <%= activeSort === 'price_high' ? 'selected' : '' %>>Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Catalog Grid -->
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 4rem;">
+    <% if (pizzas.length === 0) { %>
+      <div style="text-align: center; padding: 4rem 1rem;">
+        <span style="font-size: 3.5rem;">🔍</span>
+        <h2 style="margin: 1rem 0 0.5rem; font-size: 1.75rem;">No menu items matched your search</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Try searching with different keywords like 'paneer', 'chicken', 'margherita', or clear filters.</p>
+        <a href="/menu" class="btn-dominos-red">View Entire Menu</a>
+      </div>
+    <% } else { %>
+      <div class="menu-grid">
+        <% pizzas.forEach(pizza => { %>
+          <div class="pizza-card">
+            <div class="card-media">
+              <span class="food-type-icon <%= pizza.isVeg ? 'veg' : 'nonveg' %>"></span>
+              <% if (pizza.isBestseller) { %>
+                <span class="card-badge-bestseller">★ BESTSELLER</span>
+              <% } %>
+              <img src="<%= pizza.image %>" alt="<%= pizza.name %>" class="card-img" loading="lazy">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title"><%= pizza.name %></h3>
+              <p class="card-tagline"><%= pizza.tagline || pizza.description %></p>
+              
+              <div class="card-meta-bar">
+                <span class="rating-pill">
+                  <span class="rating-star">★</span> <%= pizza.rating %>
+                </span>
+                <span>(<%= pizza.reviewsCount %> ratings)</span>
+              </div>
+
+              <div class="card-action-row">
+                <div class="price-box">
+                  <span class="price-label">Starts at</span>
+                  <span class="price-amount">₹<%= pizza.sizes[pizza.defaultSize || 'regular']?.price || 0 %></span>
+                  <% if (pizza.crusts && pizza.crusts.length > 0) { %>
+                    <button class="btn-customise" onclick="openCustomizeModal('<%= pizza.id %>')">Customise crust & size</button>
+                  <% } %>
+                </div>
+
+                <% if (pizza.crusts && pizza.crusts.length > 0) { %>
+                  <button class="btn-add-cart" onclick="openCustomizeModal('<%= pizza.id %>')">
+                    <span>ADD</span>
+                    <span>+</span>
+                  </button>
+                <% } else { %>
+                  <button class="btn-add-cart" onclick="addToCart('<%= pizza.id %>', 'regular', null, false)">
+                    <span>ADD</span>
+                    <span>+</span>
+                  </button>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+
+  <!-- Interactive Overlays & Modals -->
+  <%- include('partials/cart-drawer') %>
+  <%- include('partials/customize-modal') %>
+  <%- include('partials/auth-modal') %>
+
+  <!-- Global Footer -->
+  <%- include('partials/footer') %>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/auth-modal.js"></script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+/* Domino's Pizza Tracker Styles */
+
+.tracker-hero {
+  background: linear-gradient(135deg, #002f6c 0%, #0055a5 100%);
+  color: white;
+  padding: 3.5rem 0 4rem;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  margin-bottom: 2.5rem;
+}
+
+.tracker-header-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.order-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.tracker-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: white;
+}
+
+.est-delivery-badge {
+  background: white;
+  color: var(--text-main);
+  padding: 1rem 1.75rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+}
+
+.est-delivery-badge .label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.est-delivery-badge .time {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--dominos-red);
+  font-family: 'Outfit', sans-serif;
+}
+
+/* ================= The Pizza Tracker Stepper ================= */
+.tracker-stepper-container {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 2.5rem;
+}
+
+.stepper-progress-track {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+.stepper-progress-track::before {
+  content: '';
+  position: absolute;
+  top: 26px;
+  left: 30px;
+  right: 30px;
+  height: 6px;
+  background: #e2e8f0;
+  z-index: 1;
+}
+
+.stepper-progress-fill {
+  position: absolute;
+  top: 26px;
+  left: 30px;
+  height: 6px;
+  background: linear-gradient(90deg, var(--dominos-blue), var(--dominos-red));
+  z-index: 2;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-node {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.step-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 3px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  color: var(--text-muted);
+  transition: all var(--transition-normal);
+  margin-bottom: 0.85rem;
+}
+
+.step-node.completed .step-circle {
+  background: var(--dominos-blue);
+  border-color: var(--dominos-blue);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 85, 165, 0.35);
+}
+
+.step-node.active .step-circle {
+  background: var(--dominos-red);
+  border-color: var(--dominos-red);
+  color: white;
+  box-shadow: 0 0 0 6px rgba(227, 24, 55, 0.25);
+  animation: pulseNode 2s infinite;
+}
+
+@keyframes pulseNode {
+  0% { box-shadow: 0 0 0 0 rgba(227, 24, 55, 0.5); }
+  70% { box-shadow: 0 0 0 12px rgba(227, 24, 55, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(227, 24, 55, 0); }
+}
+
+.step-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.step-node.active .step-label {
+  color: var(--dominos-red);
+  font-weight: 800;
+}
+
+.step-node.completed .step-label {
+  color: var(--dominos-blue-dark);
+}
+
+.step-subtext {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 0.2rem;
+}
+
+/* Status Banner message */
+.tracker-status-banner {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.status-live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--veg-color);
+  animation: liveBlink 1.5s infinite;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ================= Grid Details ================= */
+.tracker-details-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+}
+
+.order-items-box, .delivery-driver-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.box-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.driver-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.driver-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  border: 2px solid var(--border-subtle);
+}
+
+.driver-info h4 {
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
+}
+
+.driver-info p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.btn-call-driver {
+  width: 100%;
+  background: #eff6ff;
+  color: var(--dominos-blue);
+  border: 1px solid #bfdbfe;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-call-driver:hover {
+  background: var(--dominos-blue);
+  color: white;
+}
+
+/* Interactive Simulation Panel for evaluation */
+.demo-simulate-panel {
+  background: #fffbeb;
+  border: 1.5px dashed #f59e0b;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.btn-simulate-next {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.btn-simulate-next:hover {
+  background: #d97706;
+}
+
+@media (max-width: 768px) {
+  .tracker-stepper-container {
+    padding: 1.5rem 1rem;
+    overflow-x: auto;
+  }
+  .stepper-progress-track {
+    min-width: 600px;
+  }
+  .tracker-details-grid {
+    grid-template-columns: 1fr;
+  }
+}

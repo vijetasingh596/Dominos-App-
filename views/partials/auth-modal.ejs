@@ -1,0 +1,78 @@
+<!-- Domino's Authentication Required Modal -->
+<div id="auth-modal-backdrop" class="custom-modal-backdrop">
+  <div class="auth-modal-dialog">
+    <button class="custom-modal-close-btn" onclick="closeAuthModal()" style="top: 14px; right: 14px; background: #f1f5f9; color: #475569;" aria-label="Close">&times;</button>
+
+    <div class="auth-header">
+      <div class="logo-badge">
+        <svg class="domino-icon-svg" viewBox="0 0 100 100" fill="none" style="width: 28px; height: 28px;">
+          <rect x="8" y="24" width="46" height="46" rx="9" transform="rotate(-45 8 24)" fill="#0055a5"/>
+          <rect x="42" y="-10" width="46" height="46" rx="9" transform="rotate(-45 42 -10)" fill="#e31837"/>
+          <circle cx="50" cy="22" r="4.5" fill="white"/>
+          <circle cx="38" cy="58" r="4" fill="white"/>
+          <circle cx="62" cy="58" r="4" fill="white"/>
+        </svg>
+        <span>Domino's</span>
+      </div>
+      <p id="auth-modal-notice" style="color: var(--dominos-red); font-weight: 700; background: #fef2f2; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid #fecaca; margin-top: 0.5rem;">
+        Please sign in or create an account to place your order.
+      </p>
+    </div>
+
+    <!-- Tab Switcher -->
+    <div class="auth-tab-switch">
+      <button type="button" id="tab-btn-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">Sign In</button>
+      <button type="button" id="tab-btn-register" class="auth-tab-btn" onclick="switchAuthTab('register')">Create Account</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="auth-login-form" onsubmit="submitAjaxLogin(event)">
+      <div id="auth-login-error" style="display: none; background: #fef2f2; color: #b91c1c; padding: 0.5rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 0.75rem;"></div>
+
+      <div class="form-group">
+        <label class="form-label" for="auth-login-email">Email Address</label>
+        <input type="email" id="auth-login-email" name="email" class="form-control" placeholder="name@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="auth-login-password">Password</label>
+        <input type="password" id="auth-login-password" name="password" class="form-control" placeholder="Enter password" required>
+      </div>
+
+      <button type="submit" class="btn-submit-auth">Sign In & Continue Order</button>
+
+      <!-- Quick 1-Click Demo Fill -->
+      <div class="quick-demo-login-box">
+        <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">Testing the app? Use instant demo:</div>
+        <button type="button" class="quick-demo-btn" onclick="quickDemoLogin()">⚡ 1-Click Demo Login (demo@dominos.com)</button>
+      </div>
+    </form>
+
+    <!-- Register Form -->
+    <form id="auth-register-form" onsubmit="submitAjaxRegister(event)" style="display: none;">
+      <div id="auth-register-error" style="display: none; background: #fef2f2; color: #b91c1c; padding: 0.5rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 0.75rem;"></div>
+
+      <div class="form-group">
+        <label class="form-label" for="auth-reg-name">Full Name</label>
+        <input type="text" id="auth-reg-name" name="name" class="form-control" placeholder="e.g. Rahul Sharma" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="auth-reg-email">Email Address</label>
+        <input type="email" id="auth-reg-email" name="email" class="form-control" placeholder="name@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="auth-reg-phone">Phone Number</label>
+        <input type="tel" id="auth-reg-phone" name="phone" class="form-control" placeholder="10-digit mobile number" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="auth-reg-pass">Create Password (min 6 chars)</label>
+        <input type="password" id="auth-reg-pass" name="password" class="form-control" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="btn-submit-auth">Create Account & Continue</button>
+    </form>
+  </div>
+</div>

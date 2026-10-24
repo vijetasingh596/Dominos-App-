@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tracker.css">
+</head>
+<body style="background: #f8fafc;">
+
+  <!-- Global Header -->
+  <%- include('partials/header') %>
+
+  <!-- Tracker Top Banner -->
+  <section class="tracker-hero">
+    <div class="container">
+      <div class="tracker-header-box">
+        <div>
+          <div class="order-badge-pill">
+            <span>🍕 Order ID: #<%= order.id %></span>
+            <span>•</span>
+            <span><%= new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %></span>
+          </div>
+          <h1 class="tracker-title">Domino's Live Pizza Tracker</h1>
+          <p style="color: #cbd5e1; font-size: 1.05rem; margin-top: 0.25rem;">Watch your pizza journey from fresh dough to golden crust.</p>
+        </div>
+
+        <div class="est-delivery-badge">
+          <div class="label">Estimated Delivery</div>
+          <div class="time">~<%= order.estimatedDeliveryMinutes %> MINS</div>
+          <div style="font-size: 0.75rem; color: var(--veg-color); font-weight: 700; margin-top: 0.2rem;">30-MIN GUARANTEE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container" style="padding-bottom: 5rem;">
+
+    <!-- Stepper Container -->
+    <div class="tracker-stepper-container">
+      <div class="stepper-progress-track">
+        <div id="stepper-progress-fill" class="stepper-progress-fill" style="width: 0%;"></div>
+
+        <!-- Node 1: Placed -->
+        <div id="step-node-order_placed" class="step-node">
+          <div class="step-circle">📝</div>
+          <div class="step-label">Order Placed</div>
+          <div class="step-subtext">Confirmed</div>
+        </div>
+
+        <!-- Node 2: Prep -->
+        <div id="step-node-preparing" class="step-node">
+          <div class="step-circle">👨‍🍳</div>
+          <div class="step-label">In Kitchen</div>
+          <div class="step-subtext">Dough & Sauces</div>
+        </div>
+
+        <!-- Node 3: Baking -->
+        <div id="step-node-baking" class="step-node">
+          <div class="step-circle">🔥</div>
+          <div class="step-label">In the Oven</div>
+          <div class="step-subtext">245°C Bake</div>
+        </div>
+
+        <!-- Node 4: Quality Check -->
+        <div id="step-node-quality_check" class="step-node">
+          <div class="step-circle">📦</div>
+          <div class="step-label">Quality Check</div>
+          <div class="step-subtext">Packaging</div>
+        </div>
+
+        <!-- Node 5: Out for Delivery -->
+        <div id="step-node-out_for_delivery" class="step-node">
+          <div class="step-circle">🛵</div>
+          <div class="step-label">Out for Delivery</div>
+          <div class="step-subtext">Rider on way</div>
+        </div>
+
+        <!-- Node 6: Delivered -->
+        <div id="step-node-delivered" class="step-node">
+          <div class="step-circle">🎉</div>
+          <div class="step-label">Delivered</div>
+          <div class="step-subtext">Enjoy Hot!</div>
+        </div>
+      </div>
+
+      <!-- Live Status Message Bar -->
+      <div class="tracker-status-banner">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+          <div class="status-live-dot"></div>
+          <div>
+            <div id="tracker-current-status-text" style="font-weight: 800; font-size: 1.05rem; color: var(--dominos-blue-dark);">Order Confirmed</div>
+            <div id="tracker-current-status-desc" style="font-size: 0.85rem; color: var(--text-muted);">Your order is being reviewed by the Indiranagar store kitchen.</div>
+          </div>
+        </div>
+
+        <!-- Interactive Simulation Button -->
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <button class="btn-simulate-next" onclick="triggerSimulateNext('<%= order.id %>')">
+            ⚡ Advance Tracker Next Stage
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tracker Details Grid -->
+    <div class="tracker-details-grid">
+      <!-- Order Items Summary -->
+      <div class="order-items-box">
+        <h3 class="box-title">
+          <span>🍕</span>
+          <span>Items in this Order</span>
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+          <% order.items.forEach(item => { %>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border-subtle);">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <span class="food-type-icon <%= item.isVeg ? 'veg' : 'nonveg' %>" style="position: static; width: 14px; height: 14px;"></span>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem;"><%= item.quantity %>x <%= item.name %></div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">
+                    <%= item.sizeName %> | <%= item.crustName %> <%= item.extraCheese ? ' | +Extra Cheese' : '' %>
+                  </div>
+                </div>
+              </div>
+              <div style="font-weight: 800; font-size: 1rem;">₹<%= item.itemTotal %></div>
+            </div>
+          <% }) %>
+        </div>
+
+        <div class="bill-breakdown">
+          <div class="bill-row">
+            <span>Subtotal</span>
+            <span>₹<%= order.pricing.subtotal %></span>
+          </div>
+          <% if (order.pricing.discount > 0) { %>
+            <div class="bill-row discount">
+              <span>Coupon (<%= order.pricing.couponCode %>)</span>
+              <span>-₹<%= order.pricing.discount %></span>
+            </div>
+          <% } %>
+          <div class="bill-row">
+            <span>Delivery Fee</span>
+            <span><%= order.pricing.deliveryFee === 0 ? 'FREE' : `₹${order.pricing.deliveryFee}` %></span>
+          </div>
+          <div class="bill-row">
+            <span>Taxes & GST (5%)</span>
+            <span>₹<%= order.pricing.gst %></span>
+          </div>
+          <div class="bill-row total">
+            <span>Paid via <%= order.paymentMethod.toUpperCase() %></span>
+            <span>₹<%= order.pricing.grandTotal %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivery Rider Card & Destination Address -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="delivery-driver-card">
+          <h3 class="box-title">
+            <span>🛵</span>
+            <span>Delivery Partner</span>
+          </h3>
+
+          <div class="driver-profile-row">
+            <div class="driver-avatar">🏍️</div>
+            <div class="driver-info">
+              <h4><%= order.deliveryAgent.name %></h4>
+              <p>Rating: <strong>★ <%= order.deliveryAgent.rating %></strong> (1,450+ deliveries)</p>
+              <p style="font-size: 0.78rem; color: var(--text-light);">Vehicle: <%= order.deliveryAgent.vehicleNumber %></p>
+            </div>
+          </div>
+
+          <button class="btn-call-driver" onclick="showToast('Calling <%= order.deliveryAgent.name %> at <%= order.deliveryAgent.phone %>...', 'info')">
+            <span>📞 Call Delivery Partner</span>
+          </button>
+        </div>
+
+        <div class="delivery-driver-card">
+          <h3 class="box-title">
+            <span>📍</span>
+            <span>Delivery Address</span>
+          </h3>
+          <p style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem;"><%= order.customerName %></p>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
+            <%= order.address.flat %>, <%= order.address.area %><br>
+            <%= order.address.city %> - <%= order.address.pincode %><br>
+            Phone: <strong><%= order.customerPhone %></strong>
+          </p>
+          <% if (order.instructions) { %>
+            <div style="margin-top: 0.75rem; background: #f8fafc; padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; color: var(--text-muted); border-left: 3px solid var(--dominos-blue);">
+              <strong>Instructions:</strong> <%= order.instructions %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <%- include('partials/cart-drawer') %>
+  <%- include('partials/customize-modal') %>
+  <%- include('partials/footer') %>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/tracker.js"></script>
+  <script>
+    // Initialize Tracker with initial status
+    document.addEventListener('DOMContentLoaded', () => {
+      initTracker('<%= order.id %>', '<%= order.status %>');
+    });
+  </script>
+</body>
+</html>

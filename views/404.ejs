@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body style="background: #f8fafc;">
+
+  <!-- Global Header -->
+  <%- include('partials/header') %>
+
+  <main class="container" style="padding: 5rem 1.25rem; text-align: center; min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div style="font-size: 5rem; margin-bottom: 1rem;">🍕</div>
+    <h1 style="font-size: 3rem; font-weight: 900; color: var(--text-main); margin-bottom: 0.5rem;"><%= pageTitle %></h1>
+    <p style="color: var(--text-muted); font-size: 1.15rem; max-width: 480px; margin-bottom: 2rem;"><%= message %></p>
+    <a href="/menu" class="btn-dominos-red" style="font-size: 1.05rem; padding: 0.85rem 2rem;">
+      Back to Hot Pizzas ➔
+    </a>
+  </main>
+
+  <%- include('partials/cart-drawer') %>
+  <%- include('partials/customize-modal') %>
+  <%- include('partials/footer') %>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+</body>
+</html>

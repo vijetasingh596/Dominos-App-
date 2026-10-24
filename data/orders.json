@@ -1,0 +1,347 @@
+[
+  {
+    "id": "DOM-979926",
+    "userId": "usr-demo",
+    "customerName": "Rahul Sharma",
+    "customerEmail": "demo@dominos.com",
+    "customerPhone": "9876543210",
+    "address": {
+      "flat": "Flat 402, Sunshine Heights",
+      "area": "Indiranagar, 100 Feet Road",
+      "city": "Bengaluru",
+      "pincode": "560038",
+      "landmark": ""
+    },
+    "items": [
+      {
+        "id": "dessert-2",
+        "name": "Butterscotch Mousse Cake",
+        "image": "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=800&q=80",
+        "isVeg": true,
+        "size": "regular",
+        "sizeName": "Standard",
+        "crustId": null,
+        "crustName": "Standard Crust",
+        "extraCheese": false,
+        "quantity": 1,
+        "unitPrice": 109,
+        "itemTotal": 109
+      },
+      {
+        "id": "pizza-1",
+        "name": "Farmhouse",
+        "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
+        "isVeg": true,
+        "size": "large",
+        "sizeName": "Large",
+        "crustId": "hand-tossed",
+        "crustName": "New Hand Tossed",
+        "extraCheese": false,
+        "quantity": 1,
+        "unitPrice": 689,
+        "itemTotal": 689
+      }
+    ],
+    "pricing": {
+      "subtotal": 798,
+      "discount": 0,
+      "deliveryFee": 0,
+      "gst": 40,
+      "grandTotal": 838,
+      "couponCode": null
+    },
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "instructions": "Ring the bell and leave at the door if contactless.",
+    "status": "delivered",
+    "statusHistory": [
+      {
+        "status": "order_placed",
+        "label": "Order Confirmed",
+        "time": "2026-10-24T09:32:35.532Z"
+      },
+      {
+        "status": "preparing",
+        "label": "Preparing Dough & Sauces",
+        "time": "2026-10-24T09:32:37.360Z"
+      },
+      {
+        "status": "baking",
+        "label": "Baking in Oven",
+        "time": "2026-10-24T09:32:41.101Z"
+      },
+      {
+        "status": "quality_check",
+        "label": "Quality Check & Packing",
+        "time": "2026-10-24T09:32:44.965Z"
+      },
+      {
+        "status": "out_for_delivery",
+        "label": "Out for Delivery",
+        "time": "2026-10-24T09:32:47.428Z"
+      },
+      {
+        "status": "delivered",
+        "label": "Delivered Enjoy your meal!",
+        "time": "2026-10-24T09:32:49.391Z"
+      }
+    ],
+    "estimatedDeliveryMinutes": 30,
+    "deliveryAgent": {
+      "name": "Vikram Singh",
+      "phone": "+91 98451 23456",
+      "rating": 4.9,
+      "vehicleNumber": "KA-01-EZ-7890"
+    },
+    "salesforceSync": {
+      "status": "PENDING",
+      "salesforceOrderId": null,
+      "syncedAt": null
+    },
+    "createdAt": "2026-10-24T09:32:35.532Z"
+  },
+  {
+    "id": "DOM-967485",
+    "userId": "usr-demo",
+    "customerName": "Rahul Sharma",
+    "customerEmail": "demo@dominos.com",
+    "customerPhone": "9876543210",
+    "address": {
+      "flat": "Flat 402, Sunshine Heights",
+      "area": "Indiranagar, 100 Feet Road",
+      "city": "Bengaluru",
+      "pincode": "560038",
+      "landmark": ""
+    },
+    "items": [
+      {
+        "id": "pizza-4",
+        "name": "Veggie Paradise",
+        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=800&q=80",
+        "isVeg": true,
+        "size": "medium",
+        "sizeName": "Medium",
+        "crustId": "hand-tossed",
+        "crustName": "New Hand Tossed",
+        "extraCheese": false,
+        "quantity": 1,
+        "unitPrice": 479,
+        "itemTotal": 479
+      }
+    ],
+    "pricing": {
+      "subtotal": 479,
+      "discount": 0,
+      "deliveryFee": 0,
+      "gst": 24,
+      "grandTotal": 503,
+      "couponCode": null
+    },
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "instructions": "Ring the bell and leave at the door if contactless.",
+    "status": "preparing",
+    "statusHistory": [
+      {
+        "status": "order_placed",
+        "label": "Order Confirmed",
+        "time": "2026-10-24T08:42:31.623Z"
+      },
+      {
+        "status": "preparing",
+        "label": "Preparing Dough & Sauces",
+        "time": "2026-10-24T08:43:08.400Z"
+      },
+      {
+        "status": "baking",
+        "label": "Baking in Oven",
+        "time": "2026-10-24T08:43:11.966Z"
+      },
+      {
+        "status": "quality_check",
+        "label": "Quality Check & Packing",
+        "time": "2026-10-24T08:43:12.913Z"
+      },
+      {
+        "status": "out_for_delivery",
+        "label": "Out for Delivery",
+        "time": "2026-10-24T08:43:13.664Z"
+      },
+      {
+        "status": "delivered",
+        "label": "Delivered Enjoy your meal!",
+        "time": "2026-10-24T08:43:14.504Z"
+      },
+      {
+        "status": "order_placed",
+        "label": "Order Confirmed",
+        "time": "2026-10-24T08:43:15.440Z"
+      },
+      {
+        "status": "preparing",
+        "label": "Preparing Dough & Sauces",
+        "time": "2026-10-24T08:43:16.785Z"
+      },
+      {
+        "status": "baking",
+        "label": "Baking in Oven",
+        "time": "2026-10-24T08:43:17.688Z"
+      },
+      {
+        "status": "quality_check",
+        "label": "Quality Check & Packing",
+        "time": "2026-10-24T08:43:17.928Z"
+      },
+      {
+        "status": "out_for_delivery",
+        "label": "Out for Delivery",
+        "time": "2026-10-24T08:43:18.132Z"
+      },
+      {
+        "status": "delivered",
+        "label": "Delivered Enjoy your meal!",
+        "time": "2026-10-24T08:43:18.321Z"
+      },
+      {
+        "status": "order_placed",
+        "label": "Order Confirmed",
+        "time": "2026-10-24T08:43:18.546Z"
+      },
+      {
+        "status": "preparing",
+        "label": "Preparing Dough & Sauces",
+        "time": "2026-10-24T08:43:18.735Z"
+      },
+      {
+        "status": "baking",
+        "label": "Baking in Oven",
+        "time": "2026-10-24T08:43:18.938Z"
+      },
+      {
+        "status": "quality_check",
+        "label": "Quality Check & Packing",
+        "time": "2026-10-24T08:43:19.176Z"
+      },
+      {
+        "status": "out_for_delivery",
+        "label": "Out for Delivery",
+        "time": "2026-10-24T08:43:19.374Z"
+      },
+      {
+        "status": "delivered",
+        "label": "Delivered Enjoy your meal!",
+        "time": "2026-10-24T08:43:19.570Z"
+      },
+      {
+        "status": "order_placed",
+        "label": "Order Confirmed",
+        "time": "2026-10-24T08:43:19.771Z"
+      },
+      {
+        "status": "preparing",
+        "label": "Preparing Dough & Sauces",
+        "time": "2026-10-24T08:43:19.972Z"
+      },
+      {
+        "status": "baking",
+        "label": "Baking in Oven",
+        "time": "2026-10-24T08:43:20.167Z"
+      },
+      {
+        "status": "quality_check",
+        "label": "Quality Check & Packing",
+        "time": "2026-10-24T08:43:20.368Z"
+      },
+      {
+        "status": "out_for_delivery",
+        "label": "Out for Delivery",
+        "time": "2026-10-24T08:43:20.577Z"
+      },
+      {
+        "status": "delivered",
+        "label": "Delivered Enjoy your meal!",
+        "time": "2026-10-24T08:43:20.779Z"
+      },
+      {
+        "status": "order_placed",
+        "label": "Order Confirmed",
+        "time": "2026-10-24T08:43:20.906Z"
+      },
+      {
+        "status": "preparing",
+        "label": "Preparing Dough & Sauces",
+        "time": "2026-10-24T08:43:21.607Z"
+      }
+    ],
+    "estimatedDeliveryMinutes": 30,
+    "deliveryAgent": {
+      "name": "Vikram Singh",
+      "phone": "+91 98451 23456",
+      "rating": 4.9,
+      "vehicleNumber": "KA-01-EZ-7890"
+    },
+    "salesforceSync": {
+      "status": "READY_FOR_SF",
+      "salesforceOrderId": "SF-ORD-371679",
+      "syncedAt": "2026-10-24T08:42:31.627Z"
+    },
+    "createdAt": "2026-10-24T08:42:31.623Z"
+  },
+  {
+    "id": "DOM-131383",
+    "userId": "usr-demo",
+    "customerName": "Rahul Sharma",
+    "customerEmail": "demo@dominos.com",
+    "customerPhone": "9876543210",
+    "address": {
+      "flat": "Flat 402, Sunshine Heights",
+      "area": "Indiranagar, 100 Feet Road",
+      "city": "Bengaluru",
+      "pincode": "560038",
+      "landmark": ""
+    },
+    "items": [
+      {
+        "id": "pizza-1",
+        "name": "Farmhouse",
+        "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
+        "isVeg": true,
+        "size": "medium",
+        "sizeName": "Medium",
+        "crustId": "cheese-burst",
+        "crustName": "Cheese Burst",
+        "extraCheese": false,
+        "quantity": 1,
+        "unitPrice": 558,
+        "itemTotal": 558
+      }
+    ],
+    "pricing": {
+      "subtotal": 558,
+      "discount": 0,
+      "deliveryFee": 0,
+      "gst": 28,
+      "grandTotal": 586,
+      "couponCode": null
+    },
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "instructions": "Ring the bell and leave at the door if contactless.",
+    "status": "order_placed",
+    "statusHistory": [
+      {
+        "status": "order_placed",
+        "label": "Order Confirmed",
+        "time": "2026-10-24T08:23:31.686Z"
+      }
+    ],
+    "estimatedDeliveryMinutes": 30,
+    "deliveryAgent": {
+      "name": "Vikram Singh",
+      "phone": "+91 98451 23456",
+      "rating": 4.9,
+      "vehicleNumber": "KA-01-EZ-7890"
+    },
+    "createdAt": "2026-10-24T08:23:31.686Z"
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "usr-demo",
+    "name": "Rahul Sharma",
+    "email": "demo@dominos.com",
+    "phone": "9876543210",
+    "password": "$2b$10$r2/4F1Zo.KueEE3UUzLPjupY.9EA16mSCGlbtpq6CRopo0A9yZMBu",
+    "role": "user",
+    "addresses": [
+      {
+        "id": "addr-1",
+        "type": "Home",
+        "flat": "Flat 402, Sunshine Heights",
+        "area": "Indiranagar, 100 Feet Road",
+        "city": "Bengaluru",
+        "pincode": "560038"
+      }
+    ],
+    "createdAt": "2026-10-24T08:03:04.054Z"
+  },
+  {
+    "id": "usr-admin",
+    "name": "Domino's Store Manager",
+    "email": "admin@dominos.com",
+    "phone": "9800000000",
+    "password": "$2b$10$r2/4F1Zo.KueEE3UUzLPjui/efEp/Hjno2qnPJl9RbWv7MM5cYyOq",
+    "role": "admin",
+    "addresses": [],
+    "createdAt": "2026-10-24T08:03:04.054Z"
+  }
+]

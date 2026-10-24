@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tracker.css">
+</head>
+<body>
+
+  <!-- Global Header -->
+  <%- include('partials/header') %>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content-col">
+          <div class="hero-badge">
+            <span>⚡ 30-Minute Express Delivery Pledge</span>
+          </div>
+          <h1 class="hero-title">
+            Hot, Fresh & Crusty <span class="highlight">Domino's Pizza</span> At Your Door.
+          </h1>
+          <p class="hero-subtitle">
+            Crafted with 100% mozzarella cheese, hand-tossed fresh dough, and secret herb marinara. Get ready for an explosion of cheesy happiness!
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="/menu" class="btn-dominos-red">
+              <span>Order Online Now</span>
+              <span>➔</span>
+            </a>
+            <a href="/deals" class="btn-secondary-white">
+              <span>View Offers & Deals</span>
+              <span>🏷️</span>
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <h3>30 Mins</h3>
+              <p>Average Delivery</p>
+            </div>
+            <div class="stat-item">
+              <h3>4.8 ★</h3>
+              <p>Customer Rating</p>
+            </div>
+            <div class="stat-item">
+              <h3>100%</h3>
+              <p>Real Mozzarella</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual-wrapper">
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" alt="Delicious Domino's Pizza" class="hero-main-pizza">
+          <div class="floating-guarantee-badge">
+            <span style="font-size: 1.8rem;">🔥</span>
+            <div class="badge-text">
+              <div class="title">Hot Delivery Guarantee</div>
+              <div class="sub">Delivered straight from our 245°C oven</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Quick Links Bar -->
+  <div class="category-nav-bar">
+    <div class="container">
+      <div class="category-scroll-list">
+        <a href="/menu" class="cat-pill active">
+          <span>🍕</span> All Pizzas
+        </a>
+        <a href="/menu?category=veg" class="cat-pill">
+          <span class="food-type-icon veg" style="position: static; width: 14px; height: 14px;"></span> Veg Pizzas
+        </a>
+        <a href="/menu?category=nonveg" class="cat-pill">
+          <span class="food-type-icon nonveg" style="position: static; width: 14px; height: 14px;"></span> Non-Veg Pizzas
+        </a>
+        <a href="/menu?category=sides" class="cat-pill">
+          <span>🥖</span> Garlic Breads & Sides
+        </a>
+        <a href="/menu?category=desserts" class="cat-pill">
+          <span>🍫</span> Choco Lava Cakes
+        </a>
+        <a href="/menu?category=beverages" class="cat-pill">
+          <span>🥤</span> Beverages & Pepsi
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="container" style="padding-top: 3rem; padding-bottom: 4rem;">
+
+    <!-- Featured Bestsellers -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Domino's All-Time Bestsellers</h2>
+          <p class="section-desc">Our most-loved, highest-rated cheesy pizzas ordered every single second!</p>
+        </div>
+        <a href="/menu" class="view-all-link">View Full Menu ➔</a>
+      </div>
+
+      <div class="menu-grid">
+        <% bestsellers.forEach(pizza => { %>
+          <div class="pizza-card">
+            <div class="card-media">
+              <span class="food-type-icon <%= pizza.isVeg ? 'veg' : 'nonveg' %>"></span>
+              <span class="card-badge-bestseller">★ BESTSELLER</span>
+              <img src="<%= pizza.image %>" alt="<%= pizza.name %>" class="card-img" loading="lazy">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title"><%= pizza.name %></h3>
+              <p class="card-tagline"><%= pizza.tagline %></p>
+              
+              <div class="card-meta-bar">
+                <span class="rating-pill">
+                  <span class="rating-star">★</span> <%= pizza.rating %>
+                </span>
+                <span>(<%= pizza.reviewsCount %> ratings)</span>
+              </div>
+
+              <div class="card-action-row">
+                <div class="price-box">
+                  <span class="price-label">Starts at</span>
+                  <span class="price-amount">₹<%= pizza.sizes[pizza.defaultSize || 'regular'].price %></span>
+                  <% if (pizza.crusts && pizza.crusts.length > 0) { %>
+                    <button class="btn-customise" onclick="openCustomizeModal('<%= pizza.id %>')">Customise crust & size</button>
+                  <% } %>
+                </div>
+
+                <button class="btn-add-cart" onclick="openCustomizeModal('<%= pizza.id %>')">
+                  <span>ADD</span>
+                  <span>+</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- Promo Banner Strip -->
+    <div class="offers-strip-section">
+      <div class="container">
+        <div class="offers-strip-inner">
+          <div>
+            <span style="font-size: 0.85rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; background: rgba(0,0,0,0.2); padding: 0.3rem 0.75rem; border-radius: 999px;">FLAT 50% DISCOUNT</span>
+            <h2 style="font-size: 2.2rem; color: white; margin: 0.5rem 0;">Get 50% Off On Your Cheesy Feasts!</h2>
+            <p style="color: #ffd1d8; font-size: 1rem;">Use coupon code at checkout for up to ₹150 instant savings on orders above ₹299.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem;">
+            <div class="coupon-code-pill">
+              <span>DOMINOS50</span>
+            </div>
+            <button class="btn-secondary-white" onclick="activeCoupon='DOMINOS50'; localStorage.setItem('dominos_active_coupon', 'DOMINOS50'); openCartDrawer(); showToast('Coupon DOMINOS50 applied to cart!', 'success');" style="font-size: 0.85rem; padding: 0.5rem 1.25rem;">
+              Apply to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Veg Special Picks -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Vegetarian Specials</h2>
+          <p class="section-desc">Freshly sourced vegetables, creamy paneer cubes, and 100% mozzarella.</p>
+        </div>
+        <a href="/menu?category=veg" class="view-all-link">Explore All Veg ➔</a>
+      </div>
+
+      <div class="menu-grid">
+        <% vegSpecial.forEach(pizza => { %>
+          <div class="pizza-card">
+            <div class="card-media">
+              <span class="food-type-icon veg"></span>
+              <% if (pizza.isBestseller) { %>
+                <span class="card-badge-bestseller">★ BESTSELLER</span>
+              <% } %>
+              <img src="<%= pizza.image %>" alt="<%= pizza.name %>" class="card-img" loading="lazy">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title"><%= pizza.name %></h3>
+              <p class="card-tagline"><%= pizza.tagline %></p>
+              
+              <div class="card-meta-bar">
+                <span class="rating-pill">
+                  <span class="rating-star">★</span> <%= pizza.rating %>
+                </span>
+                <span>(<%= pizza.reviewsCount %> ratings)</span>
+              </div>
+
+              <div class="card-action-row">
+                <div class="price-box">
+                  <span class="price-label">Starts at</span>
+                  <span class="price-amount">₹<%= pizza.sizes[pizza.defaultSize || 'regular'].price %></span>
+                  <% if (pizza.crusts && pizza.crusts.length > 0) { %>
+                    <button class="btn-customise" onclick="openCustomizeModal('<%= pizza.id %>')">Customise crust</button>
+                  <% } %>
+                </div>
+
+                <button class="btn-add-cart" onclick="openCustomizeModal('<%= pizza.id %>')">
+                  <span>ADD</span>
+                  <span>+</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- Choco Lava & Sweet Endings -->
+    <section>
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Sweet Endings & Desserts</h2>
+          <p class="section-desc">No Domino's order is complete without our iconic, molten Choco Lava Cake.</p>
+        </div>
+        <a href="/menu?category=desserts" class="view-all-link">All Desserts ➔</a>
+      </div>
+
+      <div class="menu-grid">
+        <% desserts.forEach(item => { %>
+          <div class="pizza-card">
+            <div class="card-media">
+              <span class="food-type-icon veg"></span>
+              <% if (item.isBestseller) { %>
+                <span class="card-badge-bestseller">🔥 ICONIC</span>
+              <% } %>
+              <img src="<%= item.image %>" alt="<%= item.name %>" class="card-img" loading="lazy">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title"><%= item.name %></h3>
+              <p class="card-tagline"><%= item.tagline %></p>
+              
+              <div class="card-action-row" style="margin-top: 1rem;">
+                <div class="price-box">
+                  <span class="price-label">Price</span>
+                  <span class="price-amount">₹<%= item.sizes.regular.price %></span>
+                </div>
+
+                <button class="btn-add-cart" onclick="addToCart('<%= item.id %>', 'regular', null, false)">
+                  <span>ADD</span>
+                  <span>+</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Overlays & Modals -->
+  <%- include('partials/cart-drawer') %>
+  <%- include('partials/customize-modal') %>
+  <%- include('partials/auth-modal') %>
+
+  <!-- Global Footer -->
+  <%- include('partials/footer') %>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/auth-modal.js"></script>
+</body>
+</html>

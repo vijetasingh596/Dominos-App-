@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body style="background: #f8fafc;">
+
+  <!-- Global Header -->
+  <%- include('partials/header') %>
+
+  <div style="background: white; border-bottom: 1px solid var(--border-subtle); padding: 2.25rem 0;">
+    <div class="container">
+      <h1 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.25rem;">My Orders</h1>
+      <p style="color: var(--text-muted); font-size: 1rem;">View your past orders, reorder favorites, and track active deliveries.</p>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    <% if (orders.length === 0) { %>
+      <div style="text-align: center; padding: 4rem 1rem; background: white; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm);">
+        <span style="font-size: 4rem;">🍕</span>
+        <h2 style="margin: 1rem 0 0.5rem; font-size: 1.75rem;">No orders placed yet</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem; max-width: 400px; margin-left: auto; margin-right: auto;">
+          Looks like you haven't indulged in fresh hot pizza today! Browse our menu and treat yourself.
+        </p>
+        <a href="/menu" class="btn-dominos-red">Order Your First Pizza</a>
+      </div>
+    <% } else { %>
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <% orders.forEach(order => { %>
+          <div style="background: white; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm); padding: 1.75rem;">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1.25rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <div style="font-size: 0.82rem; color: var(--text-light); text-transform: uppercase; font-weight: 700;">Order ID</div>
+                <div style="font-size: 1.25rem; font-weight: 900; color: var(--dominos-blue-dark);">#<%= order.id %></div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);"><%= new Date(order.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' }) %> at <%= new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %></div>
+              </div>
+
+              <!-- Status Badge -->
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <% if (order.status === 'delivered') { %>
+                  <span style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; padding: 0.45rem 1rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem;">
+                    ✓ Delivered
+                  </span>
+                <% } else { %>
+                  <span style="background: #eff6ff; color: var(--dominos-blue); border: 1px solid #bfdbfe; padding: 0.45rem 1rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--dominos-red);"></span>
+                    <%= order.status.replace('_', ' ').toUpperCase() %>
+                  </span>
+                <% } %>
+
+                <a href="/orders/track/<%= order.id %>" class="btn-dominos-red" style="font-size: 0.85rem; padding: 0.5rem 1.25rem;">
+                  <span>Track Live</span>
+                  <span>🛵</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Item List -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.25rem;">
+              <% order.items.forEach(item => { %>
+                <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.95rem;">
+                  <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span class="food-type-icon <%= item.isVeg ? 'veg' : 'nonveg' %>" style="position: static; width: 14px; height: 14px;"></span>
+                    <span style="font-weight: 700;"><%= item.quantity %>x <%= item.name %></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem;">(<%= item.sizeName %>, <%= item.crustName %>)</span>
+                  </div>
+                  <span style="font-weight: 700;">₹<%= item.itemTotal %></span>
+                </div>
+              <% }) %>
+            </div>
+
+            <!-- Order Total & Reorder -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px dashed var(--border-subtle); padding-top: 1rem;">
+              <div style="font-size: 0.9rem; color: var(--text-muted);">
+                Total Amount: <strong style="font-size: 1.15rem; color: var(--text-main);">₹<%= order.pricing.grandTotal %></strong>
+                (<%= order.paymentMethod.toUpperCase() %>)
+              </div>
+              <button class="btn-secondary-white" style="color: var(--dominos-blue); border-color: var(--dominos-blue); font-size: 0.85rem; padding: 0.45rem 1rem;" onclick="reorderItems(<%= JSON.stringify(order.items) %>)">
+                🔄 Reorder These Items
+              </button>
+            </div>
+
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+
+  <%- include('partials/cart-drawer') %>
+  <%- include('partials/customize-modal') %>
+  <%- include('partials/footer') %>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+  <script>
+    function reorderItems(items) {
+      items.forEach(it => {
+        addToCart(it.id, it.size, it.crustId, it.extraCheese);
+      });
+      showToast('Items added to cart! Proceeding to cart...', 'success');
+      openCartDrawer();
+    }
+  </script>
+</body>
+</html>

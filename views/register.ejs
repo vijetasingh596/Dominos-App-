@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body style="background: #f1f5f9;">
+
+  <!-- Global Header -->
+  <%- include('partials/header') %>
+
+  <main class="container" style="padding: 3.5rem 1.25rem; display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 160px);">
+    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); border: 1px solid var(--border-subtle); max-width: 480px; width: 100%; padding: 2.5rem 2.25rem;">
+      
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="brand-logo" style="justify-content: center; font-size: 2rem; margin-bottom: 0.5rem;">
+          <svg class="domino-icon-svg" viewBox="0 0 100 100" fill="none" style="width: 36px; height: 36px;">
+            <rect x="8" y="24" width="46" height="46" rx="9" transform="rotate(-45 8 24)" fill="#0055a5"/>
+            <rect x="42" y="-10" width="46" height="46" rx="9" transform="rotate(-45 42 -10)" fill="#e31837"/>
+            <circle cx="50" cy="22" r="4.5" fill="white"/>
+            <circle cx="38" cy="58" r="4" fill="white"/>
+            <circle cx="62" cy="58" r="4" fill="white"/>
+          </svg>
+          <div>Domino's<span class="red">.</span></div>
+        </div>
+        <h2 style="font-size: 1.45rem; font-weight: 800; margin-bottom: 0.25rem;">Create Your Account</h2>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">Join millions of pizza lovers. Save addresses, reorder with 1 click, and track deliveries.</p>
+      </div>
+
+      <% if (error) { %>
+        <div style="background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.88rem; font-weight: 600; margin-bottom: 1.5rem;">
+          ⚠️ <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/register" method="POST">
+        <input type="hidden" name="redirect" value="<%= redirect %>">
+
+        <div class="form-group">
+          <label class="form-label" for="reg-name">Full Name</label>
+          <input type="text" id="reg-name" name="name" class="form-control" placeholder="e.g. Rahul Sharma" required autofocus>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Email Address</label>
+          <input type="email" id="reg-email" name="email" class="form-control" placeholder="name@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-phone">Phone Number</label>
+          <input type="tel" id="reg-phone" name="phone" class="form-control" placeholder="9876543210" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password">Password (Minimum 6 characters)</label>
+          <input type="password" id="reg-password" name="password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.75rem;">
+          <label class="form-label" for="reg-confirmPassword">Confirm Password</label>
+          <input type="password" id="reg-confirmPassword" name="confirmPassword" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn-dominos-red" style="width: 100%; justify-content: center; font-size: 1.05rem; padding: 0.85rem;">
+          Create Domino's Account
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.75rem; font-size: 0.92rem; color: var(--text-muted);">
+        Already have an account?
+        <a href="/login<%= redirect ? `?redirect=${encodeURIComponent(redirect)}` : '' %>" style="color: var(--dominos-blue); font-weight: 700;">Sign In</a>
+      </div>
+
+    </div>
+  </main>
+
+  <%- include('partials/cart-drawer') %>
+  <%- include('partials/customize-modal') %>
+  <%- include('partials/auth-modal') %>
+  <%- include('partials/footer') %>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/auth-modal.js"></script>
+</body>
+</html>

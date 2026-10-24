@@ -1,0 +1,100 @@
+<header class="site-header">
+  <div class="container">
+    <div class="nav-inner">
+      <div class="brand-wrapper">
+        <a href="/" class="brand-logo" aria-label="Domino's Pizza Home">
+          <!-- Domino's Official Dice Logo in SVG -->
+          <svg class="domino-icon-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Blue Square (Left/Bottom) -->
+            <rect x="8" y="24" width="46" height="46" rx="9" transform="rotate(-45 8 24)" fill="#0055a5"/>
+            <!-- Red Square (Right/Top) -->
+            <rect x="42" y="-10" width="46" height="46" rx="9" transform="rotate(-45 42 -10)" fill="#e31837"/>
+            <!-- White Dots in Red Square -->
+            <circle cx="50" cy="22" r="4.5" fill="white"/>
+            <!-- White Dots in Blue Square -->
+            <circle cx="38" cy="58" r="4" fill="white"/>
+            <circle cx="62" cy="58" r="4" fill="white"/>
+          </svg>
+          <div>Domino's<span class="red">.</span></div>
+        </a>
+
+        <div class="delivery-location-pill" title="Current Store Location">
+          <span class="dot"></span>
+          <span>Delivery: <strong>Indiranagar, Bengaluru</strong></span>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">▼</span>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link <%= currentPath === '/' ? 'active' : '' %>">Home</a></li>
+          <li><a href="/menu" class="nav-link <%= currentPath === '/menu' ? 'active' : '' %>">Explore Menu</a></li>
+          <li><a href="/deals" class="nav-link <%= currentPath === '/deals' ? 'active' : '' %>">Deals & Offers</a></li>
+          <% if (isLoggedIn) { %>
+            <li><a href="/orders" class="nav-link <%= currentPath === '/orders' ? 'active' : '' %>">My Orders</a></li>
+          <% } %>
+          <li><a href="/admin" class="nav-link <%= currentPath === '/admin' ? 'active' : '' %>" style="color: #b45309;"><span style="background: rgba(251,133,0,0.14); padding: 0.25rem 0.65rem; border-radius: 999px; font-weight: 700; border: 1px solid rgba(251,133,0,0.3);">👑 Store Admin</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Cart Trigger Button -->
+        <button id="open-cart-btn" class="cart-btn" aria-label="Open Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span>Cart</span>
+          <span id="cart-badge-count" class="cart-badge" style="display: none;">0</span>
+        </button>
+
+        <% if (isLoggedIn) { %>
+          <!-- User Profile Dropdown -->
+          <div class="user-menu-wrapper">
+            <button class="user-profile-btn">
+              <div class="user-avatar-circle">
+                <%= user.name.charAt(0).toUpperCase() %>
+              </div>
+              <span><%= user.name.split(' ')[0] %></span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">▼</span>
+            </button>
+            <div class="dropdown-card">
+              <div style="padding: 0.5rem 0.75rem;">
+                <div style="font-weight: 800; font-size: 0.95rem; color: var(--text-main);"><%= user.name %></div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);"><%= user.email %></div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="/profile" class="dropdown-item">
+                <span>👤</span> My Profile & Addresses
+              </a>
+              <a href="/orders" class="dropdown-item">
+                <span>📦</span> Order History
+              </a>
+              <% if (isAdmin) { %>
+                <a href="/admin" class="dropdown-item" style="color: var(--dominos-gold);">
+                  <span>👑</span> Admin Dashboard
+                </a>
+              <% } %>
+              <div class="dropdown-divider"></div>
+              <a href="/logout" class="dropdown-item logout">
+                <span>🚪</span> Sign Out
+              </a>
+            </div>
+          </div>
+        <% } else { %>
+          <!-- Guest Sign In & Register Buttons -->
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <a href="/login" class="nav-link" style="font-size: 0.9rem; font-weight: 700;">Sign In</a>
+            <a href="/register" class="btn-dominos-blue" style="background: var(--dominos-blue); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-full); font-weight: 700; font-size: 0.85rem;">Sign Up</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Expose authentication status to client-side scripts
+  window.DOMINOS_USER = <%= isLoggedIn ? JSON.stringify({ id: user.id, name: user.name, email: user.email, role: user.role }) : 'null' %>;
+</script>

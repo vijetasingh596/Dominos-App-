@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body style="background: #f8fafc;">
+
+  <!-- Global Header -->
+  <%- include('partials/header') %>
+
+  <div style="background: white; border-bottom: 1px solid var(--border-subtle); padding: 1.75rem 0;">
+    <div class="container">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <h1 style="font-size: 2rem; font-weight: 900;">Checkout & Delivery</h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Signed in as <strong><%= user.name %></strong> (<%= user.email %>)</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; background: #ecfdf5; color: #065f46; padding: 0.45rem 1rem; border-radius: var(--radius-full); font-weight: 700; font-size: 0.85rem;">
+          <span>🔒 Secure 256-Bit Encrypted Order</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    <div style="display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 2.5rem;" id="checkout-grid-container">
+
+      <!-- Left Column: Address & Payment -->
+      <div>
+        <!-- Delivery Address Step -->
+        <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm); margin-bottom: 2rem;">
+          <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.6rem;">
+            <span style="background: var(--dominos-blue); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">1</span>
+            <span>Delivery Address</span>
+          </h3>
+
+          <% if (user.addresses && user.addresses.length > 0) { %>
+            <div style="margin-bottom: 1.5rem;">
+              <label class="form-label">Select Saved Address:</label>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <% user.addresses.forEach((addr, i) => { %>
+                  <label style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem 1rem; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md); cursor: pointer; background: #f8fafc;" class="saved-addr-label">
+                    <input type="radio" name="saved_address" value="<%= i %>" <%= i === 0 ? 'checked' : '' %> onchange="fillSavedAddress(<%= JSON.stringify(addr) %>)" style="margin-top: 0.25rem; accent-color: var(--dominos-red);">
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.92rem;"><%= addr.type %> - <%= addr.flat %></div>
+                      <div style="font-size: 0.85rem; color: var(--text-muted);"><%= addr.area %>, <%= addr.city %> - <%= addr.pincode %></div>
+                    </div>
+                  </label>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
+
+          <form id="checkout-address-form">
+            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.75rem;">
+              Address Details:
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label" for="addr-flat">House / Flat / Door No. *</label>
+                <input type="text" id="addr-flat" class="form-control" value="<%= user.addresses?.[0]?.flat || '' %>" placeholder="e.g. Flat 301, Lakeview Apts" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="addr-phone">Contact Phone *</label>
+                <input type="tel" id="addr-phone" class="form-control" value="<%= user.phone %>" placeholder="9876543210" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="addr-area">Street / Area / Locality *</label>
+              <input type="text" id="addr-area" class="form-control" value="<%= user.addresses?.[0]?.area || '' %>" placeholder="e.g. 100 Feet Road, Indiranagar" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label" for="addr-city">City</label>
+                <input type="text" id="addr-city" class="form-control" value="Bengaluru" readonly>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="addr-pincode">Pincode *</label>
+                <input type="text" id="addr-pincode" class="form-control" value="<%= user.addresses?.[0]?.pincode || '560038' %>" placeholder="560038" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="order-instructions">Delivery Instructions (Optional)</label>
+              <input type="text" id="order-instructions" class="form-control" placeholder="e.g. Please ring the doorbell twice, don't call">
+            </div>
+          </form>
+        </div>
+
+        <!-- Payment Step -->
+        <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm);">
+          <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.6rem;">
+            <span style="background: var(--dominos-blue); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">2</span>
+            <span>Choose Payment Mode</span>
+          </h3>
+
+          <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <label style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md); cursor: pointer;" class="payment-option-label">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <input type="radio" name="payment_mode" value="cod" checked style="accent-color: var(--dominos-red);">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">Cash on Delivery (COD)</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Pay cash or UPI directly to delivery partner</div>
+                </div>
+              </div>
+              <span style="font-size: 1.25rem;">💵</span>
+            </label>
+
+            <label style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md); cursor: pointer;" class="payment-option-label">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <input type="radio" name="payment_mode" value="upi" style="accent-color: var(--dominos-red);">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">Instant UPI (GPay / PhonePe / Paytm)</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Instant zero-fee payment confirmation</div>
+                </div>
+              </div>
+              <span style="font-size: 1.25rem;">📱</span>
+            </label>
+
+            <label style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md); cursor: pointer;" class="payment-option-label">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <input type="radio" name="payment_mode" value="card" style="accent-color: var(--dominos-red);">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">Credit / Debit Card</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Visa, MasterCard, RuPay</div>
+                </div>
+              </div>
+              <span style="font-size: 1.25rem;">💳</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Order Summary & Place Order -->
+      <div>
+        <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm); position: sticky; top: 96px;">
+          <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-subtle);">
+            Order Summary
+          </h3>
+
+          <!-- Items Scroll -->
+          <div id="checkout-items-list" style="max-height: 240px; overflow-y: auto; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Coupon Input -->
+          <div class="coupon-input-group" style="margin-bottom: 1.25rem;">
+            <input type="text" id="checkout-coupon-input" class="coupon-input" placeholder="COUPON (DOMINOS50)">
+            <button type="button" class="btn-apply-coupon" onclick="applyCheckoutCoupon()">Apply</button>
+          </div>
+
+          <!-- Breakdown -->
+          <div class="bill-breakdown" style="margin-bottom: 1.75rem;">
+            <div class="bill-row">
+              <span>Subtotal</span>
+              <span id="co-subtotal">₹0</span>
+            </div>
+            <div id="co-discount-row" class="bill-row discount" style="display: none;">
+              <span>Coupon Discount</span>
+              <span id="co-discount">-₹0</span>
+            </div>
+            <div class="bill-row">
+              <span>Delivery Fee</span>
+              <span id="co-delivery">FREE</span>
+            </div>
+            <div class="bill-row">
+              <span>Taxes & GST (5%)</span>
+              <span id="co-gst">₹0</span>
+            </div>
+            <div class="bill-row total">
+              <span>Grand Total</span>
+              <span id="co-grand-total">₹0</span>
+            </div>
+          </div>
+
+          <!-- Place Order CTA -->
+          <button type="button" id="btn-place-order" class="btn-dominos-red" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 1rem;" onclick="submitOrder()">
+            <span>Place Domino's Order 🍕</span>
+          </button>
+          
+          <div style="font-size: 0.78rem; text-align: center; color: var(--text-muted); margin-top: 0.75rem;">
+            By placing this order, you agree to Domino's Terms & Conditions.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <%- include('partials/cart-drawer') %>
+  <%- include('partials/customize-modal') %>
+  <%- include('partials/footer') %>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+
+  <script>
+    // Checkout Specific Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCheckoutSummary();
+    });
+
+    function fillSavedAddress(addr) {
+      if (!addr) return;
+      document.getElementById('addr-flat').value = addr.flat || '';
+      document.getElementById('addr-area').value = addr.area || '';
+      document.getElementById('addr-pincode').value = addr.pincode || '560038';
+    }
+
+    async function loadCheckoutSummary() {
+      const itemsContainer = document.getElementById('checkout-items-list');
+      if (cartItems.length === 0) {
+        window.location.href = '/menu';
+        return;
+      }
+
+      const activeCoupon = localStorage.getItem('dominos_active_coupon') || '';
+      const couponInput = document.getElementById('checkout-coupon-input');
+      if (couponInput && activeCoupon) couponInput.value = activeCoupon;
+
+      try {
+        const res = await fetch('/api/cart/calculate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: cartItems, couponCode: activeCoupon })
+        });
+        const data = await res.json();
+
+        itemsContainer.innerHTML = data.items.map(item => `
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
+            <div>
+              <div style="font-weight: 700;">${item.quantity}x ${item.name}</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">${item.sizeName} | ${item.crustName}</div>
+            </div>
+            <div style="font-weight: 800;">₹${item.itemTotal}</div>
+          </div>
+        `).join('');
+
+        document.getElementById('co-subtotal').textContent = `₹${data.subtotal}`;
+        document.getElementById('co-delivery').textContent = data.deliveryFee === 0 ? 'FREE' : `₹${data.deliveryFee}`;
+        document.getElementById('co-gst').textContent = `₹${data.gst}`;
+        document.getElementById('co-grand-total').textContent = `₹${data.grandTotal}`;
+
+        const discRow = document.getElementById('co-discount-row');
+        if (data.discount > 0) {
+          discRow.style.display = 'flex';
+          document.getElementById('co-discount').textContent = `-₹${data.discount}`;
+        } else {
+          discRow.style.display = 'none';
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function applyCheckoutCoupon() {
+      const code = document.getElementById('checkout-coupon-input').value.trim();
+      localStorage.setItem('dominos_active_coupon', code);
+      loadCheckoutSummary();
+      showToast(code ? `Checking coupon ${code}...` : 'Coupon cleared', 'info');
+    }
+
+    async function submitOrder() {
+      const flat = document.getElementById('addr-flat').value.trim();
+      const area = document.getElementById('addr-area').value.trim();
+      const phone = document.getElementById('addr-phone').value.trim();
+      const pincode = document.getElementById('addr-pincode').value.trim();
+      const instructions = document.getElementById('order-instructions').value.trim();
+
+      if (!flat || !area || !phone || !pincode) {
+        showToast('Please fill all delivery address fields', 'info');
+        return;
+      }
+
+      const paymentMethod = document.querySelector('input[name="payment_mode"]:checked').value;
+      const couponCode = localStorage.getItem('dominos_active_coupon') || '';
+
+      const btn = document.getElementById('btn-place-order');
+      btn.disabled = true;
+      btn.innerHTML = '<span>Placing Order... 🍕</span>';
+
+      try {
+        const res = await fetch('/api/orders/place', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: cartItems,
+            couponCode,
+            address: { flat, area, phone, pincode, city: 'Bengaluru' },
+            paymentMethod,
+            instructions
+          })
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          showToast(data.message || 'Failed to place order', 'info');
+          btn.disabled = false;
+          btn.innerHTML = '<span>Place Domino\'s Order 🍕</span>';
+          return;
+        }
+
+        // Clear Cart
+        localStorage.removeItem(CART_STORAGE_KEY);
+        localStorage.removeItem('dominos_active_coupon');
+
+        // Redirect to Pizza Tracker!
+        window.location.href = data.redirectUrl;
+
+      } catch (err) {
+        console.error(err);
+        showToast('Order processing failed. Please try again.', 'info');
+        btn.disabled = false;
+        btn.innerHTML = '<span>Place Domino\'s Order 🍕</span>';
+      }
+    }
+  </script>
+</body>
+</html>

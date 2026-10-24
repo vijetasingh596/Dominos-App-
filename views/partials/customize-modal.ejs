@@ -1,0 +1,64 @@
+<!-- Pizza Customization Modal Backdrop -->
+<div id="customize-modal-backdrop" class="custom-modal-backdrop">
+  <div class="custom-modal-dialog">
+    <div class="custom-modal-header">
+      <img id="modal-pizza-img" src="" alt="Pizza preview" class="custom-modal-hero-img">
+      <button class="custom-modal-close-btn" onclick="closeCustomizeModal()" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="custom-modal-body">
+      <h3 id="modal-pizza-title" style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.25rem;">Customise Pizza</h3>
+      <p id="modal-pizza-desc" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.5rem;"></p>
+
+      <!-- Step 1: Select Size -->
+      <div class="custom-option-group">
+        <div class="custom-group-title">
+          <span>1. Choose Size</span>
+          <span style="font-size: 0.75rem; color: var(--dominos-red); font-weight: 700;">REQUIRED</span>
+        </div>
+        <div id="modal-size-grid" class="size-selector-grid">
+          <!-- Populated by cart.js -->
+        </div>
+      </div>
+
+      <!-- Step 2: Select Crust -->
+      <div class="custom-option-group">
+        <div class="custom-group-title">
+          <span>2. Choose Crust</span>
+          <span style="font-size: 0.75rem; color: var(--dominos-blue); font-weight: 700;">OPTIONAL</span>
+        </div>
+        <div id="modal-crust-list" class="crust-list">
+          <!-- Populated by cart.js -->
+        </div>
+      </div>
+
+      <!-- Step 3: Add-on Cheese -->
+      <div class="custom-option-group">
+        <div class="custom-group-title">
+          <span>3. Extra Toppings & Addons</span>
+        </div>
+        <label class="addon-card" style="cursor: pointer;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <input type="checkbox" id="modal-extra-cheese-cb" onchange="toggleExtraCheese(event)" style="width: 18px; height: 18px; accent-color: var(--dominos-red);">
+            <div>
+              <div style="font-weight: 700; font-size: 0.92rem;">Extra 100% Mozzarella Cheese</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Double the melt, double the stretch!</div>
+            </div>
+          </div>
+          <div style="font-weight: 800; font-size: 0.92rem; color: var(--dominos-red);">+ ₹49</div>
+        </label>
+      </div>
+    </div>
+
+    <div class="custom-modal-footer">
+      <div class="modal-total-box">
+        <div class="total-label">Total Price</div>
+        <div id="modal-calculated-total" class="total-price">₹0</div>
+      </div>
+      <button class="btn-dominos-red" onclick="confirmAddCustomPizza()">
+        <span>Add to Cart</span>
+        <span>🍕</span>
+      </button>
+    </div>
+  </div>
+</div>

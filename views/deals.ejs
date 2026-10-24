@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+
+  <!-- Global Header -->
+  <%- include('partials/header') %>
+
+  <div style="background: linear-gradient(135deg, #002d62, #0055a5); color: white; padding: 3.5rem 0;">
+    <div class="container" style="text-align: center;">
+      <span style="background: rgba(227,24,55,0.3); border: 1px solid rgba(227,24,55,0.6); padding: 0.35rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase;">Exclusive Domino's Deals</span>
+      <h1 style="font-size: 2.75rem; font-weight: 900; margin: 0.75rem 0 0.5rem; color: white;">Save Big On Cheesy Feasts</h1>
+      <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Apply verified promo codes at checkout for instant discounts on gourmet pizzas, sides, and combos.</p>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.75rem;">
+      <% coupons.forEach(coupon => { %>
+        <div style="background: white; border-radius: var(--radius-lg); border: 1.5px dashed var(--border-subtle); padding: 1.75rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+          <div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <div style="background: #eff6ff; color: var(--dominos-blue); font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 900; padding: 0.4rem 0.9rem; border-radius: var(--radius-sm); border: 1px solid #bfdbfe; letter-spacing: 1px;">
+                <%= coupon.code %>
+              </div>
+              <span style="font-size: 0.8rem; font-weight: 700; color: var(--veg-color); background: #ecfdf5; padding: 0.25rem 0.65rem; border-radius: 999px;">VERIFIED</span>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem;"><%= coupon.description %></h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+              Valid on all orders above ₹<%= coupon.minOrder %>. Maximum savings guaranteed on pizza combinations.
+            </p>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-subtle); padding-top: 1rem; margin-top: 1rem;">
+            <div style="font-size: 0.8rem; color: var(--text-muted);">
+              Min Order: <strong>₹<%= coupon.minOrder %></strong>
+            </div>
+            <button class="btn-dominos-red" style="font-size: 0.85rem; padding: 0.5rem 1.2rem;" onclick="activeCoupon='<%= coupon.code %>'; localStorage.setItem('dominos_active_coupon', '<%= coupon.code %>'); openCartDrawer(); showToast('Coupon <%= coupon.code %> applied to cart!', 'success');">
+              Apply Coupon
+            </button>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+
+  <!-- Interactive Overlays & Modals -->
+  <%- include('partials/cart-drawer') %>
+  <%- include('partials/customize-modal') %>
+  <%- include('partials/auth-modal') %>
+
+  <!-- Global Footer -->
+  <%- include('partials/footer') %>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/auth-modal.js"></script>
+</body>
+</html>

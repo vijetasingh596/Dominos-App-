@@ -1,0 +1,22 @@
+[
+  {
+    "code": "DOMINOS50",
+    "description": "50% OFF up to ₹150 on your order",
+    "discountPercent": 50,
+    "maxDiscount": 150,
+    "minOrder": 299
+  },
+  {
+    "code": "CHEESELOVE",
+    "description": "Flat ₹100 OFF on orders above ₹499",
+    "flatDiscount": 100,
+    "minOrder": 499
+  },
+  {
+    "code": "PARTYPACK",
+    "description": "20% OFF on orders above ₹799",
+    "discountPercent": 20,
+    "maxDiscount": 250,
+    "minOrder": 799
+  }
+]

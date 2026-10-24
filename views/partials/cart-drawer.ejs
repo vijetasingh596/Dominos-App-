@@ -1,0 +1,61 @@
+<!-- Cart Slide-Over Drawer Overlay -->
+<div id="cart-drawer-overlay" class="cart-drawer-overlay"></div>
+
+<!-- Cart Slide-Over Drawer Panel -->
+<aside id="cart-drawer" class="cart-drawer" aria-label="Shopping Cart">
+  <div class="cart-drawer-header">
+    <div class="cart-drawer-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      <span>Your Pizza Cart</span>
+    </div>
+    <button id="close-cart-btn" class="btn-close-drawer" aria-label="Close Cart">&times;</button>
+  </div>
+
+  <!-- Cart Items List Container -->
+  <div id="cart-items-container" class="cart-items-scroll">
+    <!-- Populated dynamically by cart.js -->
+  </div>
+
+  <!-- Cart Footer with Pricing & Checkout -->
+  <div id="cart-drawer-footer" class="cart-drawer-footer">
+    <!-- Promo Code Box -->
+    <div class="coupon-input-group">
+      <input type="text" id="coupon-input" class="coupon-input" placeholder="ENTER COUPON (DOMINOS50)">
+      <button type="button" id="btn-apply-coupon" class="btn-apply-coupon">Apply</button>
+    </div>
+
+    <!-- Bill Breakdown -->
+    <div class="bill-breakdown">
+      <div class="bill-row">
+        <span>Subtotal</span>
+        <span id="bill-subtotal">₹0</span>
+      </div>
+      <div id="bill-discount-row" class="bill-row discount" style="display: none;">
+        <span>Coupon Discount</span>
+        <span id="bill-discount">-₹0</span>
+      </div>
+      <div class="bill-row">
+        <span>Delivery Charge</span>
+        <span id="bill-delivery">FREE</span>
+      </div>
+      <div class="bill-row">
+        <span>Taxes & GST (5%)</span>
+        <span id="bill-gst">₹0</span>
+      </div>
+      <div class="bill-row total">
+        <span>Total Payable</span>
+        <span id="bill-grand-total">₹0</span>
+      </div>
+    </div>
+
+    <!-- Proceed to Checkout Button -->
+    <button id="btn-cart-checkout" class="btn-checkout-now">
+      <span>Proceed to Order</span>
+      <span>➔</span>
+    </button>
+  </div>
+</aside>
